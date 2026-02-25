@@ -1,0 +1,32 @@
+# Fly.io config for RIZE OS Frontend
+# Deploy: fly deploy --config fly.frontend.toml
+# First time: fly launch --config fly.frontend.toml --no-deploy
+
+app = "rizeos-frontend"
+primary_region = "sin"
+
+[build]
+  dockerfile = "frontend/Dockerfile"
+  [build.args]
+    # Bake the contract address into the Vite build
+    VITE_CONTRACT_ADDRESS = "0xF82Fa39323c68F13125B3F8278028614C13fF537"
+
+[env]
+  # nginx proxy handles /api — no VITE_API_URL needed at runtime
+
+[[services]]
+  internal_port = 80
+  protocol = "tcp"
+
+  [[services.ports]]
+    handlers = ["tls", "http"]
+    port = 443
+
+  [[services.ports]]
+    handlers = ["http"]
+    port = 80
+    force_https = true
+
+[[vm]]
+  size = "shared-cpu-1x"
+  memory = "256mb"

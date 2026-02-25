@@ -1,0 +1,38 @@
+# Fly.io config for RIZE OS Backend
+# Deploy: fly deploy --config fly.backend.toml
+# First time: fly launch --config fly.backend.toml --no-deploy
+
+app = "rizeos-backend"
+primary_region = "sin"   # Singapore — change to nearest: fra (Europe), iad (US East), nrt (Japan)
+
+[build]
+  dockerfile = "backend/Dockerfile"
+
+[env]
+  PORT = "5000"
+  NODE_ENV = "production"
+
+# Secrets (set via CLI — never put real values here):
+# fly secrets set JWT_SECRET=... AI_API_KEY=... ORG_SECRET=... CORS_ORIGIN=https://rizeos-frontend.fly.dev --config fly.backend.toml
+
+[[services]]
+  internal_port = 5000
+  protocol = "tcp"
+
+  [[services.ports]]
+    handlers = ["tls", "http"]
+    port = 443
+
+  [[services.ports]]
+    handlers = ["http"]
+    port = 80
+    force_https = true
+
+  [services.concurrency]
+    type = "requests"
+    hard_limit = 100
+    soft_limit = 80
+
+[[vm]]
+  size = "shared-cpu-1x"
+  memory = "256mb"

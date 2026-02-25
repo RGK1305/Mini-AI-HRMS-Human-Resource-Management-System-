@@ -37,16 +37,20 @@ services:
         condition: service_healthy
 
   frontend:
-    build: ./frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.dev # dev server with Vite HMR (prod uses Dockerfile → nginx)
     restart: unless-stopped
     ports:
       - "5173:5173"
     environment:
-      # Inside Docker the backend service is named 'backend'
       VITE_BACKEND_URL: http://backend:5000
       VITE_CONTRACT_ADDRESS: ${VITE_CONTRACT_ADDRESS:-0xF82Fa39323c68F13125B3F8278028614C13fF537}
     depends_on:
       - backend
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules # anonymous volume prevents host node_modules overwriting container's
 
 volumes:
   postgres-data:
