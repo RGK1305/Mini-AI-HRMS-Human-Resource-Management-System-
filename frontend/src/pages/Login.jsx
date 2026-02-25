@@ -92,7 +92,7 @@ export default function Login() {
                                 value={email}
                                 onChange={e => setEmail(e.target.value)}
                                 className="input-field !pl-10"
-                                placeholder={mode === 'admin' ? 'admin@acmetech.com' : 'alice@acmetech.com'}
+                                placeholder={mode === 'admin' ? 'admin@yourcompany.com' : 'employee@yourcompany.com'}
                                 required
                             />
                         </div>
@@ -141,12 +141,7 @@ export default function Login() {
                     </div>
                 )}
 
-                {/* Demo credentials hint */}
-                <div className="mt-4 p-3 rounded-lg bg-brand-600/5 border border-brand-600/10">
-                    <p className="text-xs text-slate-500 text-center">
-                        Demo: <span className="text-slate-400">{mode === 'admin' ? 'admin@acmetech.com' : 'alice@acmetech.com'}</span> / <span className="text-slate-400">password123</span>
-                    </p>
-                </div>
+
             </div>
         </div>
     );
