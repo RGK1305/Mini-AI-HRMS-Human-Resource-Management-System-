@@ -10,9 +10,20 @@ const aiRoutes = require('./routes/ai');
 const app = express();
 const PORT = process.env.PORT || 5000;
 
+// Warn loudly if running with the insecure dev default
+if (!process.env.JWT_SECRET || process.env.JWT_SECRET === 'rize-dev-secret-key') {
+    console.warn('⚠️  WARNING: JWT_SECRET is not set or is using the dev default. Set a strong secret in production!');
+}
+
 // Middleware
+// CORS_ORIGIN supports comma-separated origins for multi-domain deployments
+// e.g. CORS_ORIGIN=https://rizeos.com,https://www.rizeos.com
+const allowedOrigins = process.env.CORS_ORIGIN
+    ? process.env.CORS_ORIGIN.split(',')
+    : ['http://localhost:5173', 'http://localhost:3000'];
+
 app.use(cors({
-    origin: ['http://localhost:5173', 'http://localhost:3000'],
+    origin: allowedOrigins,
     credentials: true,
 }));
 app.use(express.json());

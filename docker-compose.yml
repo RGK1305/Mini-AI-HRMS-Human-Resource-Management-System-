@@ -29,12 +29,12 @@ services:
       PORT: 5000
       ORG_NAME: ${ORG_NAME:-rize-os}
       ORG_SECRET: ${ORG_SECRET:-rize-default-salt}
+      # Set to your deployed frontend URL in production (comma-separated for multiple)
+      # e.g. CORS_ORIGIN=https://yourapp.com
+      CORS_ORIGIN: ${CORS_ORIGIN:-}
     depends_on:
       db:
         condition: service_healthy
-    volumes:
-      - ./backend/src:/app/src
-      - ./backend/prisma:/app/prisma
 
   frontend:
     build: ./frontend
@@ -42,13 +42,13 @@ services:
     ports:
       - "5173:5173"
     environment:
-      VITE_API_URL: http://localhost:5000/api
+      # Inside Docker the backend service is named 'backend'
+      VITE_BACKEND_URL: http://backend:5000
       VITE_CONTRACT_ADDRESS: ${VITE_CONTRACT_ADDRESS:-0xF82Fa39323c68F13125B3F8278028614C13fF537}
     depends_on:
       - backend
-    volumes:
-      - ./frontend:/app
-      - /app/node_modules
 
 volumes:
   postgres-data:
+
+
