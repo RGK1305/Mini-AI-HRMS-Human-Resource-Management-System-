@@ -1,0 +1,159 @@
+# RIZE OS
+
+**AI-Powered HRMS with Blockchain Activity Logging**
+
+An enterprise workforce management platform featuring AI productivity scoring, LLM-driven skill gap detection, trend prediction, and immutable on-chain task verification via Ethereum Sepolia.
+
+---
+
+## Tech Stack
+
+| Layer | Technology |
+|---|---|
+| Backend | Node.js, Express, Prisma ORM |
+| Database | PostgreSQL (JSONB for dynamic skills) |
+| Frontend | React 18, Vite, Tailwind CSS |
+| AI | OpenAI/Claude API (with mock fallback) |
+| Web3 | Solidity, Hardhat, Ethereum Sepolia (Etherscan), ethers.js |
+| Infra | Docker Compose |
+
+## Quick Start
+
+### Prerequisites
+- [Docker](https://docs.docker.com/get-docker/) & Docker Compose
+- [Node.js 20+](https://nodejs.org/) (for local development)
+
+### 1. Clone & Configure
+```bash
+git clone <repo-url>
+cd RIZE_OS
+cp .env.example .env
+# Edit .env with your keys (optional — app works without them)
+```
+
+### 2. Run with Docker
+```bash
+docker compose up --build
+```
+This starts PostgreSQL, the Express API (port 5000), and the React frontend (port 5173).
+
+### 3. Run Locally (without Docker)
+```bash
+# Terminal 1: Backend
+cd backend
+npm install
+npx prisma migrate dev
+npx prisma db seed        # Seeds 5 employees & 31 tasks across 5 months
+npm run dev
+
+# Terminal 2: Frontend
+cd frontend
+npm install
+npm run dev
+```
+
+### 4. Access the App
+- **Frontend**: http://localhost:5173
+- **Backend API**: http://localhost:5000/api/health
+- **Admin login**: `admin@acmetech.com` / `password123`
+- **Employee login**: `alice@acmetech.com` / `password123`
+
+---
+
+## Features
+
+### 🏢 HRMS Core
+- JWT authentication with admin/employee role separation
+- Organization management with multi-tenant data isolation
+- Employee profiles with dynamic skills (JSONB)
+- Full CRUD for employees and tasks
+
+### 📋 Task Kanban Board
+- Drag-and-drop task management (Assigned → In Progress → Completed)
+- Task creation with deadline, complexity, and AI-assisted employee assignment
+- **Search & filter bar** — filter by title/description/assignee (debounced), complexity level, and employee (admin only)
+- Active filter count badge with one-click clear
+- Completed column is locked (tasks cannot be moved back)
+- Task detail modal with full audit reference (DB UUID + keccak256 on-chain hash)
+
+### 🧠 AI Workforce Intelligence
+- **Productivity Score**: `(Completion Rate × 0.5) + (Speed vs Deadline × 0.3) + (Avg Complexity × 0.2)`
+  - Speed scoring is **binary**: finishing on or before the deadline = 100. Early finish (< 50% of allotted time) = 110 bonus. Late = proportional penalty.
+  - Deadline comparison uses **end-of-day (23:59:59)** to prevent midnight false-lates.
+- **Trend Predictor**: calculates month-over-month score trajectory (Improving / Stable / Declining) — requires ≥ 5 completed tasks across ≥ 2 months
+- **Skill Gap Detection**: LLM-powered analysis of missing skills per role
+- **AI Smart Assignment**: ranks employees by productivity score, availability, and complexity fit when creating or reassigning a task
+- **Dashboard Analytics**: department averages, top performers, org-wide metrics
+- **Graceful Fallback**: mock insights when no API key is configured
+
+### ⛓️ Web3 Activity Logger
+- Solidity `WorkforceLogger` contract on **Ethereum Sepolia** testnet
+- MetaMask integration for signing task completions
+- keccak256 hashing of task UUIDs for on-chain privacy
+- Transaction hash stored in PostgreSQL (`onChainTxHash`) as proof-of-work
+- Direct links to **Sepolia Etherscan** explorer
+- Task detail modal shows both DB UUID and on-chain bytes32 hash with copy buttons
+
+---
+
+## Scoring Engine Details
+
+```
+Score = (completionRate × 0.5) + (speedScore × 0.3) + (complexityScore × 0.2)
+```
+
+| Component | Calculation |
+|---|---|
+| `completionRate` | `(COMPLETED tasks / total tasks) × 100` |
+| `speedScore` | Binary: 100 if on-time, 110 if early (<50% of window), 0–100 penalty if late |
+| `complexityScore` | `(avgComplexity / 5) × 100` — higher difficulty = higher score |
+
+The `completedAt` timestamp is recorded in PostgreSQL whenever a task transitions to `COMPLETED` (both Web3 and non-Web3 paths). Deadlines are evaluated at **23:59:59** of the due date.
+
+---
+
+## Project Structure
+```
+RIZE_OS/
+├── backend/
+│   ├── prisma/
+│   │   ├── schema.prisma    # Organization, Employee, Task models
+│   │   └── seed.js          # 5 employees, 31 tasks across 5 months
+│   ├── src/
+│   │   ├── middleware/       # JWT auth
+│   │   ├── routes/           # auth, employees, tasks, ai
+│   │   └── services/
+│   │       ├── scoringEngine.js     # Productivity score calculation
+│   │       ├── insightGenerator.js  # LLM skill gap & narrative
+│   │       └── trendPredictor.js    # Month-over-month trend analysis
+│   └── Dockerfile
+├── frontend/
+│   ├── src/
+│   │   ├── components/   # Navbar, StatsCard
+│   │   ├── context/      # AuthContext
+│   │   ├── lib/          # API client (api.js), Web3 utils (web3.js)
+│   │   └── pages/        # Login, Register, Dashboard, KanbanBoard, Profile
+│   └── Dockerfile
+├── contracts/
+│   ├── WorkforceLogger.sol
+│   ├── hardhat.config.js
+│   └── scripts/deploy.js
+├── docker-compose.yml
+├── PITCH.md              # SaaS GTM strategy
+└── DEMO_SCRIPT.md        # 15-min demo walkthrough
+```
+
+## Smart Contract Deployment
+
+```bash
+cd contracts
+npm install
+# Set DEPLOYER_PRIVATE_KEY and SEPOLIA_RPC_URL in .env
+npx hardhat run scripts/deploy.js --network sepolia
+# Copy the deployed address to VITE_CONTRACT_ADDRESS in frontend/.env
+```
+
+---
+
+## License
+MIT

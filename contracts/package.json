@@ -1,0 +1,13 @@
+{
+    "name": "rize-os-contracts",
+    "version": "1.0.0",
+    "scripts": {
+        "compile": "npx hardhat compile",
+        "deploy": "npx hardhat run scripts/deploy.js --network amoy",
+        "deploy:local": "npx hardhat run scripts/deploy.js --network localhost"
+    },
+    "devDependencies": {
+        "hardhat": "^2.22.17",
+        "@nomicfoundation/hardhat-toolbox": "^5.0.0"
+    }
+}

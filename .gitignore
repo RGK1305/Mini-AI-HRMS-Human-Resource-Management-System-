@@ -1,0 +1,37 @@
+# ── Dependencies ────────────────────────────────────────────────
+node_modules/
+
+# ── Build Outputs ────────────────────────────────────────────────
+dist/
+build/
+.vite/
+
+# ── Environment Variables (NEVER commit secrets) ─────────────────
+.env
+.env.local
+.env.*.local
+*.env
+
+# ── Logs ─────────────────────────────────────────────────────────
+*.log
+npm-debug.log*
+
+# ── OS & Editor ──────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# ── Docker volumes ───────────────────────────────────────────────
+postgres-data/
+pgdata/
+
+# ── Hardhat / Contracts ──────────────────────────────────────────
+contracts/artifacts/
+contracts/cache/
+
+# ── Prisma engine binaries (auto-downloaded) ─────────────────────
+backend/node_modules/.prisma/
+
+# ── Misc ─────────────────────────────────────────────────────────
+coverage/
