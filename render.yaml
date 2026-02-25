@@ -1,0 +1,28 @@
+services:
+  - type: web
+    name: rizeos-backend
+    runtime: docker
+    dockerfilePath: ./backend/Dockerfile
+    plan: free
+    region: singapore
+    envVars:
+      - key: DATABASE_URL
+        sync: false          # set manually in Render dashboard (Neon URL)
+      - key: JWT_SECRET
+        generateValue: true  # Render auto-generates a secure random value
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 5000
+      - key: ORG_NAME
+        value: RIZE OS
+      - key: ORG_SECRET
+        generateValue: true
+      - key: AI_PROVIDER
+        value: openai
+      - key: AI_API_KEY
+        sync: false          # paste your key in Render dashboard (optional)
+      - key: CORS_ORIGIN
+        sync: false          # set to your Vercel frontend URL after deploying frontend
+      - key: VITE_CONTRACT_ADDRESS
+        value: "0xF82Fa39323c68F13125B3F8278028614C13fF537"
