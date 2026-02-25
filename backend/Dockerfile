@@ -15,4 +15,6 @@ COPY . .
 
 EXPOSE 5000
 
-CMD ["sh", "-c", "npx prisma db push --skip-generate && (npx prisma db seed || true) && npm start"]
+# NOTE: seed is intentionally excluded from production startup.
+# To populate demo data locally run: docker compose exec backend npx prisma db seed
+CMD ["sh", "-c", "npx prisma db push --skip-generate && npm start"]
