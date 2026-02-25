@@ -2,6 +2,7 @@ const express = require('express');
 const bcrypt = require('bcryptjs');
 const { PrismaClient } = require('@prisma/client');
 const { generateToken } = require('../middleware/auth');
+const { validatePassword } = require('../utils/validators');
 
 const router = express.Router();
 const prisma = new PrismaClient();
@@ -13,6 +14,12 @@ router.post('/register-org', async (req, res, next) => {
 
         if (!name || !email || !password) {
             return res.status(400).json({ error: 'Name, email, and password are required' });
+        }
+
+        // Validate password strength
+        const passwordValidation = validatePassword(password);
+        if (!passwordValidation.isValid) {
+            return res.status(400).json({ error: passwordValidation.message });
         }
 
         const existing = await prisma.organization.findUnique({ where: { email } });

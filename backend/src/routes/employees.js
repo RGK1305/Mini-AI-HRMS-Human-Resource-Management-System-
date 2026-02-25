@@ -2,6 +2,7 @@ const express = require('express');
 const bcrypt = require('bcryptjs');
 const { PrismaClient } = require('@prisma/client');
 const { authenticateToken, requireAdmin } = require('../middleware/auth');
+const { validatePassword } = require('../utils/validators');
 
 const router = express.Router();
 const prisma = new PrismaClient();
@@ -67,6 +68,12 @@ router.post('/', authenticateToken, requireAdmin, async (req, res, next) => {
             return res.status(400).json({ error: 'Name, email, password, role, and department required' });
         }
 
+        // Validate password strength
+        const passwordValidation = validatePassword(password);
+        if (!passwordValidation.isValid) {
+            return res.status(400).json({ error: passwordValidation.message });
+        }
+
         const existing = await prisma.employee.findUnique({ where: { email } });
         if (existing) {
             return res.status(409).json({ error: 'Employee with this email already exists' });
@@ -130,7 +137,7 @@ router.delete('/:id', authenticateToken, requireAdmin, async (req, res, next) =>
 
         // 1. Fetch the employee to check their org
         const employee = await prisma.employee.findUnique({ where: { id: employeeId } });
-        
+
         // 2. Ensure they exist AND belong to the Admin's org
         if (!employee || employee.organizationId !== req.user.orgId) {
             return res.status(403).json({ error: 'Unauthorized to delete this employee' });

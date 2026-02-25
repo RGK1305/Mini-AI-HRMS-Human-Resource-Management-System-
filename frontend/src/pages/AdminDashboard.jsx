@@ -267,7 +267,7 @@ export default function AdminDashboard() {
                                     <Users size={20} className="text-brand-400" />
                                     Employees
                                 </h2>
-                                
+
                                 {/* New Search Bar */}
                                 <div className="relative w-full sm:w-64">
                                     <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 pointer-events-none" />
@@ -462,8 +462,8 @@ export default function AdminDashboard() {
                                         value={newEmp.password}
                                         onChange={e => setNewEmp(p => ({ ...p, password: e.target.value }))}
                                         className="input-field !pl-10 !pr-11"
-                                        placeholder="Min. 6 characters"
-                                        minLength={6}
+                                        placeholder="Min 8 chars + upper, lower, num, symbol"
+                                        minLength={8}
                                         required
                                     />
                                     <button
