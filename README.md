@@ -5,6 +5,12 @@
 An enterprise workforce management platform featuring AI productivity scoring, LLM-driven skill gap detection, trend prediction, and immutable on-chain task verification via Ethereum Sepolia.
 
 ---
+### Official Deliveribles
+- **Product Demo** (15-20 min): [Insert Loom/YouTube Link Here](https://youtube.com)
+- **Frontend**: [https://mini-ai-hrms-lyart.vercel.app/](https://mini-ai-hrms-lyart.vercel.app/)
+- **Backend API**: [https://mini-ai-hrms-human-resource-management.onrender.com](https://mini-ai-hrms-human-resource-management.onrender.com)
+- **Smart Contract (Sepolia)**: 0xF82Fa39323c68F13125B3F8278028614C13fF537
+---
 
 ## Tech Stack
 
@@ -25,7 +31,7 @@ An enterprise workforce management platform featuring AI productivity scoring, L
 
 ### 1. Clone & Configure
 ```bash
-git clone <repo-url>
+git clone [https://github.com/RGK1305/Mini-AI-HRMS-Human-Resource-Management-System-](https://github.com/RGK1305/Mini-AI-HRMS-Human-Resource-Management-System-)
 cd RIZE_OS
 cp .env.example .env
 # Edit .env with your keys (optional — app works without them)
@@ -52,11 +58,12 @@ npm install
 npm run dev
 ```
 
-### 4. Access the App
+### 4. Access the App locally
 - **Frontend**: http://localhost:5173
 - **Backend API**: http://localhost:5000/api/health
 - **Admin login**: `admin@acmetech.com` / `password123`
 - **Employee login**: `alice@acmetech.com` / `password123`
+
 
 ---
 
@@ -64,7 +71,7 @@ npm run dev
 
 ### 🏢 HRMS Core
 - JWT authentication with admin/employee role separation
-- Organization management with multi-tenant data isolation
+- Organization management with **multi-tenant data isolation**
 - Employee profiles with dynamic skills (JSONB)
 - Full CRUD for employees and tasks
 
@@ -74,15 +81,15 @@ npm run dev
 - **Search & filter bar** — filter by title/description/assignee (debounced), complexity level, and employee (admin only)
 - Active filter count badge with one-click clear
 - Completed column is locked (tasks cannot be moved back)
-- Task detail modal with full audit reference (DB UUID + keccak256 on-chain hash)
+- **Task detail modal with full audit reference (DB UUID + keccak256 on-chain hash)**
 
 ### 🧠 AI Workforce Intelligence
 - **Productivity Score**: `(Completion Rate × 0.5) + (Speed vs Deadline × 0.3) + (Avg Complexity × 0.2)`
   - Speed scoring is **binary**: finishing on or before the deadline = 100. Early finish (< 50% of allotted time) = 110 bonus. Late = proportional penalty.
   - Deadline comparison uses **end-of-day (23:59:59)** to prevent midnight false-lates.
 - **Trend Predictor**: calculates month-over-month score trajectory (Improving / Stable / Declining) — requires ≥ 5 completed tasks across ≥ 2 months
-- **Skill Gap Detection**: LLM-powered analysis of missing skills per role
-- **AI Smart Assignment**: ranks employees by productivity score, availability, and complexity fit when creating or reassigning a task
+- **Skill Gap Detection**: LLM-powered analysis of missing skills per role 
+- **AI Smart Assignment**: ranks employees by productivity score(x0.5), availability(x0.4), and complexity fit(x0.1) when creating or reassigning a task
 - **Dashboard Analytics**: department averages, top performers, org-wide metrics
 - **Graceful Fallback**: mock insights when no API key is configured
 
