@@ -6,7 +6,7 @@ An enterprise workforce management platform featuring AI productivity scoring, L
 
 ---
 ### Official Deliveribles
-- **Product Demo** (15-20 min): [Product Demo](https://drive.google.com/file/d/1vyH8SleFqL_KxomcqEj0uYxbc-xoI3IS/view?usp=drive_link)
+- **Product Demo** (15-20 min): [Product Demo](https://drive.google.com/file/d/1DJL90bNuKkL1x3gvFMpDDhNgDfRi-v64/view?usp=sharing)
 - **Frontend**: [https://mini-ai-hrms-lyart.vercel.app/](https://mini-ai-hrms-lyart.vercel.app/)
 - **Backend API**: [https://mini-ai-hrms-human-resource-management.onrender.com](https://mini-ai-hrms-human-resource-management.onrender.com)
 - **Smart Contract (Sepolia)**: 0xF82Fa39323c68F13125B3F8278028614C13fF537
