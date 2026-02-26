@@ -62,10 +62,13 @@ async function generateInsights(employee, scoreData) {
     try {
         if (provider === 'openai') {
             const OpenAI = require('openai');
-            const openai = new OpenAI({ apiKey });
+            const openai = new OpenAI({
+                apiKey,
+                baseURL: process.env.AI_BASE_URL || undefined,
+            });
 
             const response = await openai.chat.completions.create({
-                model: 'gpt-4o-mini',
+                model: process.env.AI_MODEL || 'gpt-4o-mini',
                 messages: [
                     {
                         role: 'system',
