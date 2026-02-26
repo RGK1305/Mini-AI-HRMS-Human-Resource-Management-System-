@@ -102,6 +102,13 @@ npm run dev
 - Direct links to **Sepolia Etherscan** explorer
 - Task detail modal shows both DB UUID and on-chain bytes32 hash with copy buttons
 
+**Multi-Tenant Web3 Security & Privacy:**
+To ensure absolute data privacy across different organizations (tenants), **no plain-text employee or task data is ever pushed to the public blockchain**. 
+1. The backend combines the `Task ID`, `Employee ID`, the `Organization Name`, and a secret server-side `SALT`.
+2. This string is hashed using `keccak256` before it ever leaves the backend.
+3. The frontend only receives the `bytes32` hash, which the user subsequently logs on-chain via MetaMask.
+4. This ensures immutable proof-of-work while guaranteeing that competitor organizations cannot reverse-engineer employee identities, task descriptions, or workload volumes from the public ledger.
+
 ---
 
 ## Scoring Engine Details
