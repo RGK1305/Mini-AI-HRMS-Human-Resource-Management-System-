@@ -12,6 +12,19 @@ An enterprise workforce management platform featuring AI productivity scoring, L
 - **Smart Contract (Sepolia)**: 0xF82Fa39323c68F13125B3F8278028614C13fF537
 ---
 
+## 🗺️ Project Navigation Hub (Reviewer Guide)
+To make reviewing this assessment as explicitly clear as possible, here is a central map to the requested deliverables within this repository:
+- **🚀 Running the App:** Detailed instructions (both Docker Compose and Local) are in the [Quick Start](#quick-start) section below.
+- **⛓️ Smart Contracts (Web3):** The Solidity smart contract (`WorkforceLogger.sol`) used for Sepolia testnet logging lives strictly in the `contracts/` directory.
+- **🧠 AI Logic & Services:** 
+  - LLM Integration & Deterministic Fallback: `backend/src/services/insightGenerator.js`
+  - Mathematical Scoring Engine: `backend/src/services/scoringEngine.js`
+  - *Read the [AI Workforce Intelligence](#-ai-workforce-intelligence) section below for a summary of the AI features and their logic.*
+- **📈 GTM Strategy:** My Go-To-Market and premium enterprise monetization plans are located in `PITCH.md`.
+- **🎬 Demo Script:** The precise, verbatim script used for the video presentation is saved in `DEMO_SCRIPT.md`.
+
+---
+
 ## Tech Stack
 
 | Layer | Technology |
