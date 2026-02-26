@@ -48,7 +48,9 @@ export default function EmployeeProfile() {
         setInsightLoading(true);
         try {
             const res = await getAiInsights(id);
-            setInsights(res.data);
+            // The API wraps the response in { employeeId, score, insights: {...} }
+            setInsights(res.data.insights || res.data);
+
             // Refresh employee to get updated score
             const empRes = await getEmployee(id);
             setEmployee(empRes.data);
@@ -253,7 +255,7 @@ export default function EmployeeProfile() {
                                 <h2 className="text-lg font-semibold text-white flex items-center gap-2 mb-4">
                                     <Lightbulb size={20} className="text-amber-400" />
                                     AI Insights
-                                    {insights.insights?.source === 'mock' && (
+                                    {insights.source === 'mock' && (
                                         <span className="ml-2 text-xs px-2 py-0.5 rounded bg-amber-500/10 text-amber-400 border border-amber-500/20">
                                             Demo Mode
                                         </span>
