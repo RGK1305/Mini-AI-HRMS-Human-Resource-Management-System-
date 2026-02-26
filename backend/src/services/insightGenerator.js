@@ -93,7 +93,16 @@ async function generateInsights(employee, scoreData) {
             });
 
             const parsed = JSON.parse(response.choices[0].message.content);
-            return { ...parsed, source: 'openai' };
+
+            // Re-inject the calculated performance tier so it still renders the badge
+            const tier = getPerformanceTier(scoreData.score);
+
+            return {
+                suggestedSkills: parsed.suggestedSkills,
+                performanceSummary: parsed.performanceSummary,
+                performanceTier: tier,
+                source: 'openai'
+            };
         }
 
         // Fallback to mock if provider not recognized

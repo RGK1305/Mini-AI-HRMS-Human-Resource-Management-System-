@@ -19,7 +19,7 @@ An enterprise workforce management platform featuring AI productivity scoring, L
 | Backend | Node.js, Express, Prisma ORM |
 | Database | PostgreSQL (JSONB for dynamic skills) |
 | Frontend | React 18, Vite, Tailwind CSS |
-| AI | OpenAI/Claude API (with mock fallback) |
+| AI | Groq (Llama-3.3-70b) / OpenAI API (with deterministic fallback) |
 | Web3 | Solidity, Hardhat, Ethereum Sepolia (Etherscan), ethers.js |
 | Infra | Docker Compose |
 
@@ -88,7 +88,8 @@ npm run dev
   - Speed scoring is **binary**: finishing on or before the deadline = 100. Early finish (< 50% of allotted time) = 110 bonus. Late = proportional penalty.
   - Deadline comparison uses **end-of-day (23:59:59)** to prevent midnight false-lates.
 - **Trend Predictor**: calculates month-over-month score trajectory (Improving / Stable / Declining) — requires ≥ 5 completed tasks across ≥ 2 months
-- **Skill Gap Detection**: LLM-powered analysis of missing skills per role 
+- **Skill Gap Detection (Powered by Groq/Llama-3)**: Fast, free LLM inference analyzes employee roles and completed tasks to suggest missing technical skills, prioritizing high-ROI learning paths without compromising application speed.
+- **Performance Narrative**: Synthesizes the raw productivity score and completion rate into a 2-3 sentence performance review suitable for HR dashboards.
 - **AI Smart Assignment**: ranks employees by productivity score(x0.5), availability(x0.4), and complexity fit(x0.1) when creating or reassigning a task
 - **Dashboard Analytics**: department averages, top performers, org-wide metrics
 - **Graceful Fallback**: mock insights when no API key is configured

@@ -260,28 +260,28 @@ export default function EmployeeProfile() {
                                     )}
                                 </h2>
 
-                                {insights.insights?.performanceTier && (
+                                {insights.performanceTier && (
                                     <div className="mb-4 p-3 rounded-xl bg-surface-900/40 border border-slate-800/50">
                                         <div className="flex items-center gap-2 mb-2">
                                             <Award size={16} className="text-brand-400" />
                                             <span className="text-sm font-semibold text-slate-200">
-                                                {getTierLabel(insights.insights.performanceTier)}
+                                                {getTierLabel(insights.performanceTier)}
                                             </span>
                                         </div>
                                         <p className="text-sm text-slate-400 leading-relaxed">
-                                            {insights.insights.performanceSummary}
+                                            {insights.performanceSummary}
                                         </p>
                                     </div>
                                 )}
 
-                                {insights.insights?.suggestedSkills?.length > 0 && (
+                                {insights.suggestedSkills?.length > 0 && (
                                     <div>
                                         <h3 className="text-sm font-semibold text-slate-300 mb-3 flex items-center gap-2">
                                             <TrendingUp size={14} className="text-emerald-400" />
                                             Suggested Skills to Learn
                                         </h3>
                                         <div className="flex flex-wrap gap-2">
-                                            {insights.insights.suggestedSkills.map((skill, idx) => (
+                                            {insights.suggestedSkills.map((skill, idx) => (
                                                 <span key={idx} className="px-3 py-1.5 rounded-lg bg-emerald-500/10 text-emerald-300 text-xs font-medium border border-emerald-500/20">
                                                     + {skill}
                                                 </span>
@@ -330,13 +330,13 @@ export default function EmployeeProfile() {
                                             {trend.monthlyData.map((m) => {
                                                 // 1. Identify if this is the ongoing current month
                                                 const isCurrentMonth = m.month === new Date().toISOString().slice(0, 7);
-                                                
+
                                                 const barH = Math.max(20, (m.score / 100) * 112);
                                                 const baseColor = m.score >= 70 ? 'bg-emerald-500' : m.score >= 50 ? 'bg-blue-500' : 'bg-amber-500';
-                                                
+
                                                 // 2. Apply faded/dashed styling if it's the current month
-                                                const barStyle = isCurrentMonth 
-                                                    ? `${baseColor} opacity-40 border-t-2 border-dashed border-white/50` 
+                                                const barStyle = isCurrentMonth
+                                                    ? `${baseColor} opacity-40 border-t-2 border-dashed border-white/50`
                                                     : baseColor;
 
                                                 return (
