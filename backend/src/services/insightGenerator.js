@@ -88,7 +88,7 @@ async function generateInsights(employee, scoreData) {
                         }),
                     },
                 ],
-                temperature: 0.7,
+                temperature: 0.1, // Fixed: Lower temperature so suggestions are more consistent
                 max_tokens: 500,
             });
 
